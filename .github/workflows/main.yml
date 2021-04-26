@@ -1,0 +1,31 @@
+on:
+  push:
+
+jobs:
+
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        size: [1]
+      
+    runs-on: ubuntu-latest
+
+    env:
+      IMAGE: ghcr.io/${{ github.repository }}:size-${{ matrix.size }}
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Make disk space
+      run: curl https://raw.githubusercontent.com/apache/flink/14ae6fee5c835871ea0145b94fbc1e8585fe78b3/tools/azure-pipelines/free_disk_space.sh | bash
+    - name: Show some randomness
+      run: head -c 32 </dev/random | xxd -p
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag ${{ env.IMAGE }} --build-arg SIZE=${{ matrix.size }}
+    - name: Find size of image
+      run: docker images
+    - run: docker login https://ghcr.io -u token -p ${{ secrets.GHCR_TOKEN }}
+    - name: Push the image
+      run: docker push ${{ env.IMAGE }}
+    - name: Pull the image
+      run: docker pull ${{ env.IMAGE }}
