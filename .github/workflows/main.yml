@@ -16,8 +16,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Make disk space
-      run: curl https://raw.githubusercontent.com/apache/flink/14ae6fee5c835871ea0145b94fbc1e8585fe78b3/tools/azure-pipelines/free_disk_space.sh | bash
+#    - name: Make disk space
+#      run: curl https://raw.githubusercontent.com/apache/flink/14ae6fee5c835871ea0145b94fbc1e8585fe78b3/tools/azure-pipelines/free_disk_space.sh | bash
     - name: Show some randomness
       run: head -c 32 </dev/random | xxd -p
     - name: Build the Docker image
