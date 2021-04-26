@@ -24,7 +24,7 @@ jobs:
       run: docker build . --file Dockerfile --tag ${{ env.IMAGE }} --build-arg SIZE=${{ matrix.size }}
     - name: Find size of image
       run: docker images
-    - run: docker login https://ghcr.io -u token -p ${{ secrets.GHCR_TOKEN }}
+    - run: docker login https://ghcr.io -u token -p ${{ github.token }}
     - name: Push the image
       run: docker push ${{ env.IMAGE }}
     - name: Pull the image
