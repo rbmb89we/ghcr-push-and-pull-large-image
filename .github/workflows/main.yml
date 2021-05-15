@@ -9,7 +9,7 @@ jobs:
       matrix:
         size: [1, $((4*1024*1024)), $((5*1024*1024)), $((6*1024*1024))]
       
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     env:
       IMAGE: ghcr.io/${{ github.repository }}:size-${{ matrix.size }}
